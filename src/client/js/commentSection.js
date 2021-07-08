@@ -32,6 +32,7 @@ const createComment = (text, id) => {
   const li = document.createElement("li");
   const icon = document.createElement("i");
   const span = document.createElement("span");
+  
   const span2 = document.createElement("span");
 
   span2.innerText = "✨";
