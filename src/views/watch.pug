@@ -1,0 +1,37 @@
+extends base
+
+block contents 
+    div#screencontainer(data-id=video._id)
+        video(src="/"+video.videoUrl, controls).video 
+        div#videocontrols.videoControls
+            div.videoControls__play
+                span#play.videoControls__playBtn 
+                    i.fas.fa-play
+                div.videoControls__time
+                    span#currenttime 00:00
+                    span /
+                    span#totaltime 00:00
+            input(type="range" min=0 step=1 value=0)#timeline.videoControls__timeline
+            div.videoControls__volume
+                input(type="range" min=0 max=1 step=0.1)#volume
+                span#mute
+                    i.fas.fa-volume-up
+            div
+                span#fullscreen
+                    i.fas.fa-expand
+    if login
+        form#commentform 
+            textarea(cols="30", rows="10")
+            button Comment! 
+    div.comment__div
+        ul.comment__list 
+            each comment in video.comment.reverse()
+                li(data-id=comment._id)
+                    i.fas.fa-comment 
+                    span #{comment.text} 
+                    if comment.owner == loginUser._id
+                        span.del ✨
+block scripts 
+    script(src="/static/js/videoplayer.js")
+    if login
+        script(src="/static/js/commentSection.js")

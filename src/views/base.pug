@@ -1,0 +1,20 @@
+include mixins/messages
+
+doctype html
+html(lang="ko")
+    head 
+        title #{pagetitle} | #{siteName}
+        link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
+        link(rel="stylesheet" href="/static/css/styles.css")
+    body 
+        if messages.error 
+            +flashMessages("error", messages.error) 
+        if messages.info 
+            +flashMessages("info", messages.info)
+        include partial/header
+        main
+            block contents
+        include partial/footer
+    script(src="/static/js/main.js")
+
+    block scripts

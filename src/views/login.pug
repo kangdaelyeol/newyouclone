@@ -1,0 +1,11 @@
+extends base
+
+block contents 
+    if(errormessage)
+        p=errormessage
+    form(method="post")
+        input(placeholder="username" type="text" required name="username")
+        input(placeholder="password" type="password" required name="password")
+        input(type="submit" value="Login!")
+        include partial/social-login 
+    div.auth-switch
