@@ -1,6 +1,5 @@
 /node_modules
 .env
-/webpack.config.js
 /assets
 /build
 /uploads
