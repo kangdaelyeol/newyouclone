@@ -13,7 +13,7 @@ header
                         a(href="/user/logout") logout
                     li
                         a(href=`/user/${loginUser._id}`)
-                            if loginUser.socialLogin
+                            if loginUser.avatarUrl.includes("github")
                                 if loginUser.avatarUrl === ""
                                     span 😀
                                 else
