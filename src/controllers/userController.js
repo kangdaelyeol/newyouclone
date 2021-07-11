@@ -176,7 +176,6 @@ export const postEditProfile = async (req, res) => {
     body: { email, username, name, location },
     file,
   } = req;
-  console.log(file);
 
   let editparams = [];
 
