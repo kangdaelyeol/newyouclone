@@ -187,7 +187,7 @@ export const postEditProfile = async (req, res) => {
     const duplicateUserData = await User.exists({ $or: editparams });
     if (duplicateUserData) return res.redirect("/");
   }
-
+  const isHeroku = process.env.NODE_ENV === "production";
   const updateUser = await User.findByIdAndUpdate(
     _id,
     {
@@ -195,7 +195,7 @@ export const postEditProfile = async (req, res) => {
       username,
       name,
       location,
-      avatarUrl: file ? file.location : avatarUrl,
+      avatarUrl: file ? (isHeroku ? file.location : file.path) : avatarUrl,
     },
     { new: true },
   );

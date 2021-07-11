@@ -9,9 +9,15 @@ const s3 = new aws.S3({
   },
 });
 
-const awsUploader = multerS3({
+const s3ImageUploader = multerS3({
   s3: s3,
-  bucket: "eodufxbqmUploader",
+  bucket: "eodufxbqmUploader/images",
+  acl: "public-read",
+});
+
+const s3VideoUploader = multerS3({
+  s3: s3,
+  bucket: "eodufxbqmUploader/videos",
   acl: "public-read",
 });
 
@@ -19,6 +25,7 @@ export const localsMiddware = (req, res, next) => {
   res.locals.siteName = "Wetube";
   res.locals.login = Boolean(req.session.login);
   res.locals.loginUser = req.session.user || {};
+  res.locals.isHeroku = process.env.NODE_ENV === "production";
   next();
 };
 
@@ -40,12 +47,14 @@ export const publicOnlyMiddleware = (req, res, next) => {
   }
 };
 
+const isHeroku = process.env.NODE_ENV === "production";
+
 export const uploadAvatar = multer({
   dest: "uploads/avatar/",
   limits: {
     fileSize: 3000000,
   },
-  storage: awsUploader,
+  storage: isHeroku ? s3ImageUploader : undefined,
 });
 
 export const uploadVideo = multer({
@@ -53,5 +62,5 @@ export const uploadVideo = multer({
   limits: {
     fileSize: 10000000,
   },
-  storage: awsUploader,
+  storage: isHeroku ? s3VideoUploader : undefined,
 });

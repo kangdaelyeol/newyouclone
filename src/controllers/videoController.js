@@ -71,11 +71,12 @@ export const postUpload = async (req, res) => {
   const { title, description, hashtags } = req.body;
   const { video, thumb } = req.files;
   try {
+    const isHeroku = process.env.NODE_ENV === "production";
     const newvideo = await Video.create({
       title,
       description,
-      videoUrl: video[0].location,
-      thumbUrl: thumb[0].location,
+      videoUrl: isHeroku ? video[0].location : video[0].path,
+      thumbUrl: isHeroku ? thumb[0].location : thumb[0].path,
       hashTags: Video.formatHashtags(hashtags),
       owner: _id,
     });
@@ -142,8 +143,8 @@ export const deleteComment = async (req, res) => {
   const videoId = comment.video;
   const video = await Video.findById(videoId);
 
-  for(let i = 0; i < video.comment.length; i++){
-    if(String(video.comment[i]._id) === String(deleteId)) j = i;
+  for (let i = 0; i < video.comment.length; i++) {
+    if (String(video.comment[i]._id) === String(deleteId)) j = i;
   }
   video.comment.splice(j, 1);
 
